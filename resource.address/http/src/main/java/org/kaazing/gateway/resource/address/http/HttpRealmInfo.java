@@ -1,3 +1,10 @@
+package org.kaazing.gateway.resource.address.http;
+
+import java.security.Principal;
+import java.util.Collection;
+
+import org.kaazing.gateway.security.LoginContextFactory;
+
 /**
  * Copyright 2007-2016, Kaazing Corporation. All rights reserved.
  *
@@ -13,20 +20,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kaazing.gateway.transport;
+public interface HttpRealmInfo {
 
-import java.util.Collection;
-import java.util.Map;
+    String getName();
 
-public abstract class TransportFactorySpi {
+    String getChallengeScheme();
 
-    public boolean isEnabled(Map<String, ?> configuration) {
-        return true;
-    }
+    String getDescription();
 
-    public abstract String getTransportName();
+    String[] getHeaderNames();
 
-    public abstract Collection<String> getSchemeNames();
+    String[] getParameterNames();
 
-    public abstract Transport newTransport(Map<String, ?> configuration);
+    String[] getAuthenticationCookieNames();
+
+    LoginContextFactory getLoginContextFactory();
+
+    Collection<Class<? extends Principal>> getUserPrincipleClasses();
+
 }

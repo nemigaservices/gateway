@@ -13,20 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kaazing.gateway.transport;
+package org.kaazing.gateway.server.spi.security;
 
-import java.util.Collection;
-import java.util.Map;
+import javax.security.auth.Subject;
+import javax.security.auth.callback.Callback;
 
-public abstract class TransportFactorySpi {
+/**
+ * A callback class that retrieves the Subject for a previous realm when authorizing multiple realms
+ */
+public class NamedSubjectCallback implements Callback {
 
-    public boolean isEnabled(Map<String, ?> configuration) {
-        return true;
+	private final String realm;
+
+	private Subject subject;
+
+	public NamedSubjectCallback(String realm) {
+		this.realm = realm;
+	}
+
+	public String getName() {
+		return realm;
+	}
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
-    public abstract String getTransportName();
-
-    public abstract Collection<String> getSchemeNames();
-
-    public abstract Transport newTransport(Map<String, ?> configuration);
+	public Subject getSubject() {
+        return subject;
+    }
 }
